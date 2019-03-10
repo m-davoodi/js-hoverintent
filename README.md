@@ -1,1 +1,1 @@
-# hoverintent
+# HoverIntent in javascript
