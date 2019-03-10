@@ -1,24 +1,20 @@
+import debounce from 'lodash-es/debounce'
+
 const intent = (type, element, func, wait = 0) => {
   if (typeof func !== 'function') {
     throw new TypeError('Expected a function')
   }
-  let timer
-  function setTimer(event) {
-    timer = setTimeout(func.bind(this, event), +wait)
-  }
-  const pending = () => timer !== undefined
+  const debouncer = debounce(func, +wait)
+  const { cancelDebounce } = debouncer
   const cancel = () => {
-    element.removeEventListener(type === 'enter' ? 'mouseenter' : 'mouseout', setTimer)
+    element.removeEventListener(type === 'enter' ? 'mouseenter' : 'mouseout', debouncer)
+    element.removeEventListener(type === 'enter' ? 'mouseout' : 'mouseenter', cancelDebounce)
+    cancelDebounce()
   }
-  element.addEventListener(type === 'enter' ? 'mouseenter' : 'mouseout', setTimer)
-  element.addEventListener(type === 'enter' ? 'mouseout' : 'mouseenter', () => {
-    if (timer) {
-      clearTimeout(timer)
-    }
-  })
+  element.addEventListener(type === 'enter' ? 'mouseenter' : 'mouseout', debouncer)
+  element.addEventListener(type === 'enter' ? 'mouseout' : 'mouseenter', cancelDebounce)
 
   return {
-    pending,
     cancel
   }
 }
