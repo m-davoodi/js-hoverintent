@@ -1,33 +1,17 @@
-/**
- * @param {HTMLElement} element
- * @param {Function} func
- * @param {number} [wait=0]
- */
-function enter(element, func, wait) {
-  return intent("enter", ...arguments);
-}
-
-function out(element, func, wait) {
-  return intent("out", ...arguments);
-}
-
-function intent(type, element, func, wait) {
-  if (typeof func !== "function") {
-    throw new TypeError("Expected a function");
+const intent = (type, element, func, wait = 0) => {
+  if (typeof func !== 'function') {
+    throw new TypeError('Expected a function');
   }
-  wait = +wait || 0;
   let timer;
-  const setTimer = function (event) {
-    timer = setTimeout(func.bind(this, event), wait);
-  };
-  const pending = () => {
-    return timer !== undefined;
-  };
+  function setTimer(event) {
+    timer = setTimeout(func.bind(this, event), +wait);
+  }
+  const pending = () => timer !== undefined;
   const cancel = () => {
-    element.removeEventListener(type === "enter" ? "mouseenter" : "mouseout", setTimer);
+    element.removeEventListener(type === 'enter' ? 'mouseenter' : 'mouseout', setTimer);
   };
-  element.addEventListener(type === "enter" ? "mouseenter" : "mouseout", setTimer);
-  element.addEventListener(type === "enter" ? "mouseout" : "mouseenter", function() {
+  element.addEventListener(type === 'enter' ? 'mouseenter' : 'mouseout', setTimer);
+  element.addEventListener(type === 'enter' ? 'mouseout' : 'mouseenter', () => {
     if (timer) {
       clearTimeout(timer);
     }
@@ -35,8 +19,12 @@ function intent(type, element, func, wait) {
 
   return {
     pending,
-    cancel
+    cancel,
   };
-}
+};
+
+const enter = (...args) => intent('enter', ...args);
+
+const out = (...args) => intent('out', ...args);
 
 export { enter, out };
