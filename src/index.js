@@ -10,12 +10,24 @@ const intent = (type, element, func, wait = 0) => {
   const debouncer = debounce(func, +wait)
   const cancelDebounce = debouncer.cancel
   const cancel = () => {
-    element.removeEventListener(type === TYPE_ENTER ? 'mouseenter' : 'mouseout', debouncer)
-    element.removeEventListener(type === TYPE_ENTER ? 'mouseout' : 'mouseenter', cancelDebounce)
+    element.removeEventListener(
+      type === TYPE_ENTER ? 'mouseenter' : 'mouseout',
+      debouncer
+    )
+    element.removeEventListener(
+      type === TYPE_ENTER ? 'mouseout' : 'mouseenter',
+      cancelDebounce
+    )
     cancelDebounce()
   }
-  element.addEventListener(type === TYPE_ENTER ? 'mouseenter' : 'mouseout', debouncer)
-  element.addEventListener(type === TYPE_ENTER ? 'mouseout' : 'mouseenter', cancelDebounce)
+  element.addEventListener(
+    type === TYPE_ENTER ? 'mouseenter' : 'mouseout',
+    debouncer
+  )
+  element.addEventListener(
+    type === TYPE_ENTER ? 'mouseout' : 'mouseenter',
+    cancelDebounce
+  )
 
   return {
     cancel
