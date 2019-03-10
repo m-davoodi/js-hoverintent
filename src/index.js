@@ -5,7 +5,7 @@ const intent = (type, element, func, wait = 0) => {
     throw new TypeError('Expected a function')
   }
   const debouncer = debounce(func, +wait)
-  const { cancelDebounce } = debouncer
+  const cancelDebounce = debouncer.cancel
   const cancel = () => {
     element.removeEventListener(type === 'enter' ? 'mouseenter' : 'mouseout', debouncer)
     element.removeEventListener(type === 'enter' ? 'mouseout' : 'mouseenter', cancelDebounce)
