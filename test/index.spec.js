@@ -1,5 +1,5 @@
 import * as sinon from 'sinon'
-import { enter } from '../build/umd/hoverintent'
+import { enter } from '../src/index'
 
 let clock
 
