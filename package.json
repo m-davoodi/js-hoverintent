@@ -5,9 +5,9 @@
   "repository": "https://github.com/m-davoodi/hoverintent.git",
   "author": "Mohsen Davoodi <mohsen.31369@gmail.com>",
   "license": "MIT",
-  "main": "build/cjs/redux.js",
-  "unpkg": "build/umd/redux.js",
-  "module": "build/es/redux.js",
+  "main": "build/cjs/hoverintent.js",
+  "unpkg": "build/umd/hoverintent.js",
+  "module": "build/es/hoverintent.js",
   "files": [
     "build",
     "src",
