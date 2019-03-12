@@ -8,7 +8,6 @@
   "main": "build/cjs/redux.js",
   "unpkg": "build/umd/redux.js",
   "module": "build/es/redux.js",
-  "typings": "./index.d.ts",
   "files": [
     "build",
     "src",
@@ -18,21 +17,20 @@
     "clean": "rimraf build coverage",
     "format": "prettier --write \"{src,test}/**/*.{js,ts}\" index.d.ts \"**/*.md\"",
     "format:check": "prettier --list-different \"{src,test}/**/*.{js,ts}\" index.d.ts \"**/*.md\"",
-    "lint": "eslint src",
+    "lint": "eslint src test",
     "pretest": "npm run build",
     "test": "jest",
     "test:watch": "npm test -- --watch",
     "test:cov": "npm test -- --coverage",
     "build": "rollup -c",
-    "prepare": "npm run clean && npm run format:check && npm run lint && npm test",
-    "examples:lint": "eslint examples",
-    "examples:test": "cross-env CI=true babel-node examples/testAll.js"
+    "prepare": "npm run clean && npm run format:check && npm run lint && npm test"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-flow": "^7.0.0",
+    "babel-jest": "^24.3.1",
     "eslint": "^5.15.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.1.0",
@@ -47,7 +45,8 @@
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-node-resolve": "^4.0.1",
     "rollup-plugin-replace": "^2.1.0",
-    "rollup-plugin-terser": "^4.0.4"
+    "rollup-plugin-terser": "^4.0.4",
+    "sinon": "^7.2.7"
   },
   "dependencies": {
     "lodash-es": "^4.17.11"
