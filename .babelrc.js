@@ -3,7 +3,7 @@ const { NODE_ENV } = process.env
 module.exports = {
   presets: [
     [
-      '@babel/preset-flow',
+      '@babel/preset-env',
       {
         targets: {
           browsers: ['ie >= 11'],
@@ -14,4 +14,7 @@ module.exports = {
       }
     ]
   ],
+  plugins: [
+    NODE_ENV === 'test' && '@babel/transform-modules-commonjs'
+  ].filter(Boolean)
 }

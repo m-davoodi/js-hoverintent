@@ -4,4 +4,12 @@ module.exports = {
   "rules": {
     "prettier/prettier": ["error"]
   },
+  overrides: [
+    {
+      files: 'test/**/*.js',
+      env: {
+        jest: true,
+      },
+    },
+  ],
 };
