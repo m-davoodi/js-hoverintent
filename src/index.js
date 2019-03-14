@@ -1,34 +1,40 @@
-import debounce from 'lodash-es/debounce'
+import debounce from './debounce'
 
 const TYPE_ENTER = 'enter'
 const TYPE_OUT = 'out'
 
-const intent = (type, element, func, wait = 0) => {
+const intent = (type, elements, func, wait = 0) => {
   if (typeof func !== 'function') {
     throw new TypeError('Expected a function')
   }
+  const elementsArray = !Array.isArray(elements) ? [elements] : [...elements]
   const debouncer = debounce(func, +wait)
-  const cancelDebounce = debouncer.cancel
-  const cancel = () => {
-    element.removeEventListener(
-      type === TYPE_ENTER ? 'mouseenter' : 'mouseout',
+
+  const addEventListenerToElement = elm => {
+    elm.addEventListener(
+      type === TYPE_ENTER ? 'mouseenter' : 'mouseleave',
       debouncer
     )
-    element.removeEventListener(
-      type === TYPE_ENTER ? 'mouseout' : 'mouseenter',
-      cancelDebounce
+    elm.addEventListener(
+      type === TYPE_ENTER ? 'mouseleave' : 'mouseenter',
+      debouncer.cancel
     )
-    cancelDebounce()
   }
-  element.addEventListener(
-    type === TYPE_ENTER ? 'mouseenter' : 'mouseout',
-    debouncer
-  )
-  element.addEventListener(
-    type === TYPE_ENTER ? 'mouseout' : 'mouseenter',
-    cancelDebounce
-  )
-
+  const removeEventListenerFromElement = elm => {
+    elm.removeEventListener(
+      type === TYPE_ENTER ? 'mouseenter' : 'mouseleave',
+      debouncer
+    )
+    elm.removeEventListener(
+      type === TYPE_ENTER ? 'mouseleave' : 'mouseenter',
+      debouncer.cancel
+    )
+  }
+  elementsArray.forEach(addEventListenerToElement)
+  const cancel = () => {
+    elementsArray.forEach(removeEventListenerFromElement)
+    debouncer.cancel()
+  }
   return {
     cancel
   }
