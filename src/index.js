@@ -1,47 +1,62 @@
 import debounce from './debounce'
 
-const TYPE_ENTER = 'enter'
-const TYPE_OUT = 'out'
-
-const intent = (type, elements, func, wait = 0) => {
+const intent = (
+  startDebounceEvent,
+  cancelDebounceEvent,
+  elements,
+  func,
+  wait = 0
+) => {
   if (typeof func !== 'function') {
     throw new TypeError('Expected a function')
   }
-  const elementsArray = !Array.isArray(elements) ? [elements] : [...elements]
+
   const debouncer = debounce(func, +wait)
 
-  const addEventListenerToElement = elm => {
-    elm.addEventListener(
-      type === TYPE_ENTER ? 'mouseenter' : 'mouseleave',
-      debouncer
-    )
-    elm.addEventListener(
-      type === TYPE_ENTER ? 'mouseleave' : 'mouseenter',
-      debouncer.cancel
-    )
+  /**
+   * Add startDebounceEvent listener to the given element via debouncer callback.
+   *
+   * @param {HTMLElement} elm A dom element.
+   *
+   * @returns {Function} A function to remove debouncer callback from startDebounceEvent listener.
+   */
+  const startDebouncer = elm => {
+    elm.addEventListener(startDebounceEvent, debouncer)
+    return () => elm.removeEventListener(startDebounceEvent, debouncer)
   }
-  const removeEventListenerFromElement = elm => {
-    elm.removeEventListener(
-      type === TYPE_ENTER ? 'mouseenter' : 'mouseleave',
-      debouncer
-    )
-    elm.removeEventListener(
-      type === TYPE_ENTER ? 'mouseleave' : 'mouseenter',
-      debouncer.cancel
-    )
+
+  /**
+   * Add cancelDebounceEvent listener to the given element via debouncer.cancel callback.
+   *
+   * @param {HTMLElement} elm A dom element.
+   *
+   * @returns {Function} A function to remove debouncer.cancel callback from cancelDebounceEvent listener.
+   */
+  const cancelDebouncer = elm => {
+    elm.addEventListener(cancelDebounceEvent, debouncer.cancel)
+    return () => elm.removeEventListener(cancelDebounceEvent, debouncer.cancel)
   }
-  elementsArray.forEach(addEventListenerToElement)
+
+  const removeEventListener = (Array.isArray(elements)
+    ? elements
+    : [elements]
+  ).map(elm => [startDebouncer(elm), cancelDebouncer(elm)])
+
   const cancel = () => {
-    elementsArray.forEach(removeEventListenerFromElement)
+    removeEventListener.forEach(([removeStart, removeCancel]) => {
+      removeStart()
+      removeCancel()
+    })
     debouncer.cancel()
   }
+
   return {
     cancel
   }
 }
 
-const enter = (...args) => intent(TYPE_ENTER, ...args)
+const enter = (...args) => intent('mouseenter', 'mouseleave', ...args)
 
-const out = (...args) => intent(TYPE_OUT, ...args)
+const out = (...args) => intent('mouseleave', 'mouseenter', ...args)
 
 export { enter, out }
