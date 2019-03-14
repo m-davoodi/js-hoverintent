@@ -10,3 +10,9 @@ branches:
     - master
 cache:
   yarn: true
+deploy:
+  provider: npm
+  email: "mohsen.31369@gmail.com"
+  api_key: $npm_api_key
+  on:
+    tags: true
