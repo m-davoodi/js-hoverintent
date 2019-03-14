@@ -4,14 +4,14 @@ const intent = (
   startDebounceEvent,
   cancelDebounceEvent,
   elements,
-  func,
+  callback,
   wait = 0
 ) => {
-  if (typeof func !== 'function') {
+  if (typeof callback !== 'function') {
     throw new TypeError('Expected a function')
   }
 
-  const debouncer = debounce(func, +wait)
+  const debouncer = debounce(callback, +wait)
 
   /**
    * Add startDebounceEvent listener to the given element via debouncer callback.
