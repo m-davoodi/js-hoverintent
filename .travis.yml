@@ -5,14 +5,12 @@ install:
   - yarn install
 script:
   - yarn test
-branches:
-  only:
-    - master
 cache:
   yarn: true
 deploy:
   provider: npm
   email: "mohsen.31369@gmail.com"
   api_key: $npm_api_key
+  skip_cleanup: true
   on:
     tags: true
