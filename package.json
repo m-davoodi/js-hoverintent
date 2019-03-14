@@ -49,9 +49,7 @@
     "rollup-plugin-terser": "^4.0.4",
     "sinon": "^7.2.7"
   },
-  "dependencies": {
-    "lodash-es": "^4.17.11"
-  },
+  "dependencies": {},
   "browserify": {
     "transform": [
       "loose-envify"
