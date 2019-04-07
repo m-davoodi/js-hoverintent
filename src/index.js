@@ -57,6 +57,6 @@ const intent = (
 
 const enter = (...args) => intent('mouseenter', 'mouseleave', ...args)
 
-const out = (...args) => intent('mouseleave', 'mouseenter', ...args)
+const leave = (...args) => intent('mouseleave', 'mouseenter', ...args)
 
-export { enter, out }
+export { enter, leave }
