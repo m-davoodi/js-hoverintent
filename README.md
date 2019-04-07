@@ -41,3 +41,90 @@ The UMD builds make HoverIntent available as a `window.HoverIntent` global varia
   var intent = window.HoverIntent
 </script>
 ```
+
+## API
+
+HoverIntent has two methods, `enter` and `leave`
+
+### `enter(elements, callback, wait)`
+
+Add mouseenter and mouseleave listeners to the given elements to determine mouse has entered
+the elements and did not leave it quickly.
+
+#### Arguments
+
+1. `elements` _(HTMLElement|HTMLElement[])_: An HTMLElement object or array of it.
+
+2. `callback` _(Function)_: A function which is called when the mouse pointer entered
+   the Html elements and after the wait time, the pointer still hovers on the element.
+   this function can take an event argument which is an instance of [_MouseEvent_](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent).
+
+3. [`wait`] _(Number)_: A delay time. after this time if the pointer still hovers on the element, the callback method will be called.
+
+#### Returns
+
+_(Object)_: An object holding `cancel` method to remove event listeners from the given elements.
+
+### `leave(elements, callback, wait)`
+
+It's similar to the enter method but used for determining the mouse has leaved the elements and did not enter it quickly again.
+
+#### Arguments
+
+1. `elements` _(HTMLElement|HTMLElement[])_: An HTMLElement object or array of it.
+
+2. `callback` _(Function)_: A function which is called when the mouse pointer leaved
+   the Html elements and after the wait time, the pointer dose not come back on the element and hovers on it.
+   this function can take an event argument which is an instance of [_MouseEvent_](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent).
+
+3. [`wait`] _(Number)_: A delay time. after this time if the pointer dose not come back on the element, the callback method will be called.
+
+#### Returns
+
+_(Object)_: An object holding `cancel` method to remove event listeners from the given elements.
+
+## Usage
+
+This simple code demonstrates adding _isHover_ class to a button element class list when the mouse pointer
+enters the button and remove it from the its class list when the mouse pointer leaves the button.
+
+```javascript
+import { enter, leave } from 'js-hoverintent'
+
+const btn = document.querySelector('button')
+
+const enterIntent = enter(
+  btn,
+  function(event) {
+    // event is instance of MouseEvent
+    event.target.classList.add('isHover')
+    // OR
+    this.classList.add('isHover')
+  },
+  100
+)
+const leaveIntent = leave(
+  btn,
+  function(event) {
+    // event is instance of MouseEvent
+    event.target.classList.remove('isHover')
+    // OR
+    this.classList.remove('isHover')
+  },
+  100
+)
+
+// if you want cancel hover intent just call cancel method of return object
+enterIntent.cancel()
+leaveIntent.cancel()
+```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
