@@ -3,6 +3,11 @@
   "version": "1.0.4",
   "description": "Hover intent in javascript",
   "repository": "https://github.com/m-davoodi/hoverintent.git",
+  "bugs": "https://github.com/m-davoodi/hoverintent/issues",
+  "keywords": [
+    "hover",
+    "hover intent"
+  ],
   "author": "Mohsen Davoodi <mohsen.31369@gmail.com>",
   "license": "MIT",
   "main": "build/cjs/hoverintent.js",
@@ -50,6 +55,15 @@
     "sinon": "^7.2.7"
   },
   "dependencies": {},
+  "npmName": "js-hoverintent",
+  "npmFileMap": [
+    {
+      "basePath": "/build/umd/",
+      "files": [
+        "*.js"
+      ]
+    }
+  ],
   "browserify": {
     "transform": [
       "loose-envify"
