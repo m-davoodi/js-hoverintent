@@ -2,8 +2,8 @@
   "name": "js-hoverintent",
   "version": "1.0.4",
   "description": "Hover intent in javascript",
-  "repository": "https://github.com/m-davoodi/hoverintent.git",
-  "bugs": "https://github.com/m-davoodi/hoverintent/issues",
+  "repository": "github:m-davoodi/js-hoverintent",
+  "bugs": "https://github.com/m-davoodi/js-hoverintent/issues",
   "keywords": [
     "hover",
     "hover intent"
