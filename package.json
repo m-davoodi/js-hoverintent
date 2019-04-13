@@ -70,7 +70,6 @@
     ]
   },
   "jest": {
-    "transformIgnorePatterns": [],
     "testRegex": "(/test/.*\\.spec\\.js)$"
   },
   "sideEffects": false
