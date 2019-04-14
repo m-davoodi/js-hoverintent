@@ -7,7 +7,7 @@ script:
   - yarn test
 cache:
   yarn: true
-after_success: yarn coverage
+after_success: yarn jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
 deploy:
   provider: npm
   email: "mohsen.31369@gmail.com"
