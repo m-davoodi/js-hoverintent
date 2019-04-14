@@ -1,5 +1,5 @@
 import * as sinon from 'sinon'
-import { enter, leave } from '..'
+import { enter, leave } from '../src/index'
 
 let clock
 let element
