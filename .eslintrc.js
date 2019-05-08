@@ -2,7 +2,8 @@ module.exports = {
   "extends": ["airbnb", "prettier"],
   "plugins": ["prettier"],
   "rules": {
-    "prettier/prettier": ["error"]
+    "prettier/prettier": ["error"],
+    "no-undef": "off"
   },
   overrides: [
     {

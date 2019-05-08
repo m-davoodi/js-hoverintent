@@ -9,6 +9,7 @@ if user wants to stay on a specific DOM element or just cross over it fast.
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Known Vulnerabilities](https://snyk.io/test/github/m-davoodi/js-hoverintent/badge.svg?targetFile=package.json)](https://snyk.io/test/github/m-davoodi/js-hoverintent?targetFile=package.json)
 [![npm downloads](https://img.shields.io/npm/dm/js-hoverintent.svg?style=flat-square)](https://www.npmjs.com/package/js-hoverintent)
+[![Coverage Status](https://coveralls.io/repos/github/m-davoodi/js-hoverintent/badge.svg)](https://coveralls.io/github/m-davoodi/js-hoverintent)
 
 ## Installation
 

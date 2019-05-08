@@ -16,7 +16,7 @@ const intent = (
   cancelDebounceEvent,
   elements,
   callback,
-  wait = 0
+  wait
 ) => {
   if (typeof callback !== 'function') {
     throw new TypeError('Expected a function')
@@ -48,10 +48,10 @@ const intent = (
     return () => elm.removeEventListener(cancelDebounceEvent, debouncer.cancel)
   }
 
-  const removeEventListener = (Array.isArray(elements)
-    ? elements
-    : [elements]
-  ).map(elm => [startDebouncer(elm), cancelDebouncer(elm)])
+  const removeEventListener = []
+  elements.forEach(elm => {
+    removeEventListener.push([startDebouncer(elm), cancelDebouncer(elm)])
+  })
 
   const cancel = () => {
     removeEventListener.forEach(([removeStart, removeCancel]) => {
@@ -61,13 +61,38 @@ const intent = (
     debouncer.cancel()
   }
 
-  return {
-    cancel
-  }
+  return cancel
 }
 
 const enter = (...args) => intent('mouseenter', 'mouseleave', ...args)
 
 const leave = (...args) => intent('mouseleave', 'mouseenter', ...args)
 
-export { enter, leave }
+export default class HoverIntent {
+  constructor(selector, enterCallback, leaveCallback, options) {
+    const defaultOptions = {
+      enterWait: 100,
+      leaveWait: 100
+    }
+
+    this.selector = document.querySelectorAll(selector)
+    this.options = Object.assign({}, defaultOptions, options)
+
+    this.cancelEnter = enter(
+      this.selector,
+      enterCallback,
+      this.options.enterWait
+    )
+
+    this.cancelLeave = leave(
+      this.selector,
+      leaveCallback,
+      this.options.leaveWait
+    )
+  }
+
+  cancel() {
+    this.cancelEnter()
+    this.cancelLeave()
+  }
+}

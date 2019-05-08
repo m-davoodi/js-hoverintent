@@ -1,5 +1,5 @@
 import * as sinon from 'sinon'
-import { enter, leave } from '../src/index'
+import HoverIntent from '../src/index'
 
 let clock
 let element
@@ -13,13 +13,13 @@ beforeEach(() => {
 afterEach(() => {
   clock.restore()
 })
-/* eslint no-undef: "off", func-names: "off" */
+/* eslint no-undef: "off", func-names: "off", no-new: "off" */
 describe('enter', () => {
   it('the element should not hover immediately when the mouse pointer enters the element', () => {
     const callback = jest.fn()
     const event = new MouseEvent('mouseenter')
 
-    enter(element, callback, 100)
+    new HoverIntent('#button', callback, () => {})
 
     element.dispatchEvent(event)
     expect(callback).toHaveBeenCalledTimes(0)
@@ -34,7 +34,7 @@ describe('enter', () => {
     const enterEvent = new MouseEvent('mouseenter')
     const leaveEvent = new MouseEvent('mouseleave')
 
-    enter(element, callback, 100)
+    new HoverIntent('#button', callback, () => {})
 
     element.dispatchEvent(enterEvent)
     clock.tick(50)
@@ -48,7 +48,8 @@ describe('enter', () => {
     const callback = jest.fn()
     const enterEvent = new MouseEvent('mouseenter')
 
-    const intent = enter(element, callback, 100)
+    const intent = new HoverIntent('#button', callback, () => {})
+
     element.dispatchEvent(enterEvent)
     intent.cancel()
     clock.tick(100)
@@ -61,7 +62,7 @@ describe('leave', () => {
     const callback = jest.fn()
     const event = new MouseEvent('mouseleave')
 
-    leave(element, callback, 100)
+    new HoverIntent('#button', () => {}, callback)
 
     element.dispatchEvent(event)
     expect(callback).toHaveBeenCalledTimes(0)
@@ -76,7 +77,7 @@ describe('leave', () => {
     const enterEvent = new MouseEvent('mouseenter')
     const leaveEvent = new MouseEvent('mouseleave')
 
-    leave(element, callback, 100)
+    new HoverIntent('#button', () => {}, callback)
 
     element.dispatchEvent(leaveEvent)
     clock.tick(50)
@@ -90,7 +91,8 @@ describe('leave', () => {
     const callback = jest.fn()
     const enterEvent = new MouseEvent('mouseleave')
 
-    const intent = leave(element, callback, 100)
+    const intent = new HoverIntent('#button', () => {}, callback)
+
     element.dispatchEvent(enterEvent)
     intent.cancel()
     clock.tick(100)
@@ -99,23 +101,9 @@ describe('leave', () => {
 })
 
 describe('enter and leave', () => {
-  const functions = [enter, leave]
-  it('exposes the public API', () => {
-    functions.forEach(func => {
-      const callback = jest.fn()
-      const intent = func(element, callback, 100)
-      const methods = Object.keys(intent)
-
-      expect(methods.length).toBe(1)
-      expect(methods).toContain('cancel')
-    })
-  })
-
   it('throws if callback is not a function', () => {
-    functions.forEach(func => {
-      expect(() => func(element)).toThrow()
-      expect(() => func(element, {})).toThrow()
-    })
+    expect(() => new HoverIntent('#button', null, () => {})).toThrow()
+    expect(() => new HoverIntent('#button', () => {}, null)).toThrow()
   })
 
   it('should work well together', () => {
@@ -124,8 +112,7 @@ describe('enter and leave', () => {
     const enterEvent = new MouseEvent('mouseenter')
     const leaveEvent = new MouseEvent('mouseleave')
 
-    enter(element, enterCallback, 100)
-    leave(element, leaveCallback, 100)
+    new HoverIntent('#button', enterCallback, leaveCallback)
 
     // the mouse enters the element
     element.dispatchEvent(enterEvent)
