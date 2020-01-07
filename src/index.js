@@ -75,7 +75,7 @@ export default class HoverIntent {
       leaveWait: 100
     }
 
-    this.selector = document.querySelectorAll(selector)
+    this.selector = typeof selector === "string" ? document.querySelectorAll(selector) : [selector];
     this.options = Object.assign({}, defaultOptions, options)
 
     this.cancelEnter = enter(
