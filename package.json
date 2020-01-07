@@ -73,5 +73,6 @@
   "jest": {
     "testRegex": "(/test/.*\\.spec\\.js)$"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
 }
