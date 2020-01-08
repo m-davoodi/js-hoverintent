@@ -1,9 +1,9 @@
 {
-  "name": "js-hoverintent",
-  "version": "1.0.5",
+  "name": "@xeader/js-hoverintent",
+  "version": "1.0.6",
   "description": "Hover intent in javascript",
-  "repository": "github:m-davoodi/js-hoverintent",
-  "bugs": "https://github.com/m-davoodi/js-hoverintent/issues",
+  "repository": "github:xeader/js-hoverintent",
+  "bugs": "https://github.com/xeader/js-hoverintent/issues",
   "keywords": [
     "hover",
     "hover intent"
@@ -56,7 +56,7 @@
     "sinon": "^7.2.7"
   },
   "dependencies": {},
-  "npmName": "js-hoverintent",
+  "npmName": "xeader/js-hoverintent",
   "npmFileMap": [
     {
       "basePath": "/build/umd/",
