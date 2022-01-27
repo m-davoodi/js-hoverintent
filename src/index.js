@@ -68,6 +68,12 @@ const enter = (...args) => intent('mouseenter', 'mouseleave', ...args)
 
 const leave = (...args) => intent('mouseleave', 'mouseenter', ...args)
 
+const objectTypeOf = someVariable =>
+  Object.prototype.toString
+    .call(someVariable)
+    .slice(8, -1)
+    .toLowerCase()
+
 export default class HoverIntent {
   constructor(selector, enterCallback, leaveCallback, options) {
     const defaultOptions = {
@@ -75,7 +81,17 @@ export default class HoverIntent {
       leaveWait: 100
     }
 
-    this.selector = document.querySelectorAll(selector)
+    this.selector = selector
+    if (
+      objectTypeOf(selector) !== 'nodelist' &&
+      objectTypeOf(selector) !== 'htmlcollection'
+    ) {
+      this.selector =
+        typeof selector === 'object'
+          ? [selector]
+          : document.querySelectorAll(selector)
+    }
+
     this.options = Object.assign({}, defaultOptions, options)
 
     this.cancelEnter = enter(
